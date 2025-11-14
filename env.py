@@ -5,9 +5,9 @@ class Banco:
     def conectar(self):
         return mysql.connector.connect(
             host = 'paparella.com.br',
-            user = 'paparell_aluno_3',
+            user = 'paparell_codigomorse',
             password = '@Senai2025',
-            database = 'paparell_iot'
+            database = 'paparell_codigomorse'
         )
     
     def env(self, total):

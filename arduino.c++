@@ -17,7 +17,6 @@ void setup()
   Serial.begin(9600);
   pinMode (botao1, INPUT_PULLUP);
   pinMode (botao2, INPUT_PULLUP);
-  pinMode (led, OUTPUT);
 }
 
 void loop()
@@ -52,11 +51,13 @@ void loop()
     
     if (tempPress2 < 350){
     	Serial.print(" ");
-    }else if (tempPress2 > 350 && tempPress2 < 600){
+    }else if (tempPress2 > 350 && tempPress2){
     	Serial.print("/");
     }
-  if (estadoBot1 == LOW && estadoBot2 == LOW && botaoPressionado1 && botaoPressionado2){
-        Serial.print("|")
-    }
   }
+  if (estadoBot1 == LOW && estadoBot2 == LOW && botaoPressionado1 && botaoPressionado2){
+      Serial.print("|");
+      botaoPressionado2 = false;
+      botaoPressionado1 = false;
+  } 
 }
