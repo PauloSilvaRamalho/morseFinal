@@ -1,0 +1,62 @@
+<?php
+header('Content-Type: text/plain; charset=utf-8');
+
+$conexao = mysqli_connect('paparella.com.br', 'paparell_codigomorse', '@Senai2025', 'paparell_codigomorse');
+if (!$conexao) {
+    die('Erro ao conectar: ' . mysqli_connect_error());
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $morse = $_POST['morse'] ?? '';
+    $traducao = isset($_POST['traducao']) ? intval($_POST['traducao']) : 0;
+
+    $query = $conexao->prepare("SELECT morse FROM morse_iot WHERE id_morse = ?");
+    $query->bind_param("s", $nome);
+    $query->execute();
+    $result = $query->get_result();
+    $row = $result->fetch_assoc();
+    $id = $row['id_morse'] ?? null;
+    $traducao = $row['traducao'];
+    
+    if ($id && $traducao == null  ) {
+        $query = $conexao->prepare("UPDATE morse_iot SET traducao = ? WHERE id_morse = ?");
+        $query->bind_param("ii", $traducao, $id);
+        $query->execute();
+        echo "traducao: $traducao";
+    }
+
+    $sql = "SELECT id_morse, morse FROM codigo_morse";
+    $result = $conn->query($sql);
+
+    while ($row = $result->fetch_assoc()) {
+
+    // EXIBE O BOTÃO COM O CÓDIGO MORSE
+    echo "
+        <form action='bank.php' method='POST'>
+            <input type='hidden' name='id_morse' value='".$row['id_morse']."'>
+            <input type='hidden' name='morse' value='".$row['morse']."'>
+            <button type='submit'>".$row['morse']."</button>
+        </form>
+        <br>
+    ";
+}
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Consulta ao banco
+    $morse = $_POST['morse'] ?? '';
+    $traducao = isset($_POST['traducao']) ? intval($_POST['traducao']) : 0;
+
+    // ATUALIZA A TRADUÇÃO NO MESMO ID
+    $sql = "UPDATE codigo_morse 
+            SET traducao = '$traducao'
+            WHERE id_morse = '$id'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Tradução atualizada: $traducao<br>";
+    } else {
+        echo "Erro: " . $conn->error;
+    }
+    }
+
+mysqli_close($conexao);
+?>
