@@ -1,6 +1,5 @@
 import mysql.connector
 
-
 class Banco:
     def conectar(self):
         return mysql.connector.connect(

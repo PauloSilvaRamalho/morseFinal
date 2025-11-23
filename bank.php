@@ -19,20 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $row['id_morse'] ?? null;
     $traducao = $row['traducao'];
     
-    if ($id && $traducao == null  ) {
+    if ($id && $traducao == null ) {
         $query = $conexao->prepare("UPDATE morse_iot SET traducao = ? WHERE id_morse = ?");
         $query->bind_param("ii", $traducao, $id);
         $query->execute();
         echo "traducao: $traducao";
-    // } else {
-    //     $query = $conexao->prepare("INSERT INTO led (nome_aluno, estado_led) VALUES (?, ?)");
-    //     $query->bind_param("si", $nome, $estado);
-    //     $query->execute();
-    //     echo "LED inserido com estado $estado";
-    // }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // ======= LEITURA DE DISTÂNCIA (Luca) =======
     header('Content-Type: application/json; charset=utf-8');
    
 
@@ -45,4 +38,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 mysqli_close($conexao);
-?>
