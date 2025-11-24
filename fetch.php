@@ -5,8 +5,8 @@ if (!$conexao) {
     die('Erro ao conectar: ' . mysqli_connect_error());
 }
 
-$query = $conexao->prepare("SELECT morse FROM morse_iot");
-$result = mysqli_query($con, $sql);
+$query = "SELECT morse FROM morse_iot";
+$result = mysqli_query($conexao, $query);
 
 $dados  = [];
 
